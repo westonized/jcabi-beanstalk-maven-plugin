@@ -153,8 +153,8 @@ public final class GenericMojoTest {
     }
 
     /**
-     * Verifies that checkEbextensionsValidity throws an exception, if there is
-     * no .ebextensions directory in the WAR file.
+     * Verifies that execute throws an exception, if there is no .ebextensions
+     * directory in the WAR file.
      * @throws Exception Thrown in case of error.
      */
     @Test
@@ -188,8 +188,8 @@ public final class GenericMojoTest {
     }
 
     /**
-     * Verifies that checkEbextensionsValidity throws an exception, if the
-     * .ebextensions is empty.
+     * Verifies that execute throws an exception, if the .ebextensions directory
+     * is empty.
      * @throws Exception Thrown in case of error.
      */
     @Test
