@@ -178,8 +178,6 @@ abstract class AbstractBeanstalkMojo extends AbstractMojo {
         try {
             final ZipFile zipFile = this.createZipFile();
             this.validate(zipFile);
-            final WarFile warFile = this.createWarFile(zipFile);
-            this.validateWarFile(warFile);
             zipFile.close();
         } catch (final IOException ex) {
             throw new MojoFailureException(
@@ -214,31 +212,12 @@ abstract class AbstractBeanstalkMojo extends AbstractMojo {
     }
 
     /**
-     * Creates a {@link WarFile} out of the {@link ZipFile}.
-     * @param zipfile The zip file.
-     * @return WarFile the war file.
-     */
-    protected WarFile createWarFile(final ZipFile zipfile) {
-        return new WarFile(zipfile);
-    }
-
-    /**
      * Creates a {@link ZipFile} out of the war.
      * @return ZipFile the zip file
      * @throws IOException Thrown in case of IO error.
      */
     protected ZipFile createZipFile() throws IOException {
         return new ZipFile(this.war);
-    }
-
-    /**
-     * Validate {@link WarFile} given.
-     * @param warfile The war file
-     * @throws MojoFailureException Throw in case of validation error.
-     */
-    protected void validateWarFile(final WarFile warfile)
-        throws MojoFailureException {
-        warfile.checkEbextensionsValidity();
     }
 
     /**

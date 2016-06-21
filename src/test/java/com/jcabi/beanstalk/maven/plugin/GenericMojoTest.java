@@ -72,8 +72,6 @@ public final class GenericMojoTest {
         mojo.execute();
         Mockito.verify(mojo).createZipFile();
         Mockito.verify(mojo).validate(mockZipFile);
-        Mockito.verify(mojo).createWarFile(mockZipFile);
-        Mockito.verify(mojo).validateWarFile(Mockito.any(WarFile.class));
         Mockito.verify(mojo).createServerCredentials();
         Mockito.verify(mockZipFile).close();
         Mockito.verify(mockFile, Mockito.times(2)).exists();
