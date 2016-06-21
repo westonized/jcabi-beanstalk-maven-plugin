@@ -314,23 +314,26 @@ abstract class AbstractBeanstalkMojo extends AbstractMojo {
     }
 
     /**
-     * Validate the war file.
-     *
+     * Verifies that the .ebextensions contains valid configuration file or
+     * files.
      * @param zip Zip file
-     * @throws org.apache.maven.plugin.MojoFailureException Thrown, if
-     *  validation fails.
+     * @throws org.apache.maven.plugin.MojoFailureException Thrown, if the
+     *  .ebextensions does not exist in the WAR file, is empty or one of its
+     *  files is neither valid JSON, nor valid YAML.
      */
     protected void validate(final ZipFile zip) throws MojoFailureException {
-        if (zip.getEntry(".ebextension") == null) {
+        if (zip.getEntry(".ebextensions") == null) {
             throw new MojoFailureException(
                 ".ebextensions directory does not exist in the WAR file"
             );
         }
         final Enumeration<? extends ZipEntry> entries = zip.entries();
+        int files = 0;
         while (entries.hasMoreElements()) {
             final ZipEntry entry = entries.nextElement();
             if (entry.getName().startsWith(".ebextensions/")
                 && !entry.isDirectory()) {
+                files += 1;
                 final String text = this.readFile(zip, entry);
                 if (this.validJson(text) || this.validYaml(text)) {
                     continue;
@@ -344,6 +347,11 @@ abstract class AbstractBeanstalkMojo extends AbstractMojo {
                     )
                 );
             }
+        }
+        if (files < 1) {
+            throw new MojoFailureException(
+                ".ebextensions contains no config files."
+            );
         }
     }
 
